@@ -1,6 +1,8 @@
 # App-Launcher
 Windows App Launcher with utilities like Calculators accessed by Run Utilities + 1 Easter Egg. Run the App Launcher from start menu and whenever u press Alt+X, It would pop-up
+
 <img src="image.png">
+
 <details>
   <summary>Spoiler</summary>
   The Easter Egg is Puppy Companion(forked from @Giorgiark)
@@ -19,3 +21,8 @@ pyinstaller --onefile index.py
 ```
 ## To run with python installed on your computer
 Download all files in the root folder then run "App Launcher.pyw"
+
+## Libraries to Install
+```
+pip install tkinter pynput pywin32
+```
