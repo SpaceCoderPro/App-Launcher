@@ -7,6 +7,23 @@ import win32con
 import win32com.client
 import subprocess
 import sys
+import atexit
+
+LOCKFILE = os.path.join(os.getenv("TEMP"), "app_launcher.lock")
+
+if os.path.exists(LOCKFILE):
+    sys.exit(0)
+
+with open(LOCKFILE, "w") as f:
+    f.write(str(os.getpid()))
+
+def cleanup():
+    try:
+        os.remove(LOCKFILE)
+    except:
+        pass
+
+atexit.register(cleanup)
 
 def get_installed_apps():
     paths = [
