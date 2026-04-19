@@ -1,0 +1,7 @@
+print()
+print("Fast Calculator 1.0")
+print("By Samyak")
+print()
+expr=input("Input your expression in the format like 1+1: ")
+print("Answer: ", eval(expr))
+i=input("Press enter to exit")
