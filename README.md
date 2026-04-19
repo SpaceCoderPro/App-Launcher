@@ -1,4 +1,4 @@
-# App-Launcher
+# App-Launcher(Python)
 Windows App Launcher with utilities like Calculators accessed by Run Utilities + 1 Easter Egg. Run the App Launcher from start menu and whenever u press Alt+X, It would pop-up
 
 
