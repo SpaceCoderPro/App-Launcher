@@ -3,6 +3,9 @@ Windows App Launcher with utilities like Calculators accessed by Run Utilities +
 
 I made it because existing launchers use way too much resources and my laptop doesnt have that many to give so this runs efficiently and is instant and solves my purpose...
 
+### Hotkey to Launch is Alt+X
+When u start the app, it would start as a background process, nothing would be visble. The app would become visible when u press Alt+X
+
 
 <img src="image.png">
 
