@@ -10,7 +10,7 @@ I made it because existing launchers use way too much resources and my laptop do
   <summary>Spoiler</summary>
   The Easter Egg is Puppy Companion(forked from @Giorgiark)
 </details>
-## [Download Pre Built Binary](https://github.com/SpaceCoderPro/App-Launcher/releases/tag/V1.0)
+## [Download Pre Built Binary](https://github.com/SpaceCoderPro/App-Launcher/releases)
 
 ## Compilation Instructions for .exe
 Download all files in the Pyinstaller folder then run the below commands
