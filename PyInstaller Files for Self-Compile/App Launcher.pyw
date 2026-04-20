@@ -7,23 +7,22 @@ import win32con
 import win32com.client
 import subprocess
 import sys
-import atexit
+PROCESS_EXE = "App Launcher.exe"
 
-LOCKFILE = os.path.join(os.getenv("TEMP"), "app_launcher.lock")
+try:
+    output = subprocess.check_output(
+        f'tasklist /fi "imagename eq {PROCESS_EXE}" | find /i "{PROCESS_EXE}"',
+        shell=True,
+        text=True
+    )
+except subprocess.CalledProcessError:
 
-if os.path.exists(LOCKFILE):
+    output = ""
+
+count = len(output.strip().splitlines())
+
+if count > 2:
     sys.exit(0)
-
-with open(LOCKFILE, "w") as f:
-    f.write(str(os.getpid()))
-
-def cleanup():
-    try:
-        os.remove(LOCKFILE)
-    except:
-        pass
-
-atexit.register(cleanup)
 
 def get_installed_apps():
     paths = [
