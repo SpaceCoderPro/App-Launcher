@@ -1,3 +1,4 @@
+import customtkinter as CTk
 import tkinter as tk
 from pynput import keyboard
 import os
@@ -7,7 +8,9 @@ import win32con
 import win32com.client
 import subprocess
 import sys
+from tkinter import messagebox
 PROCESS_EXE = "App Launcher.exe"
+
 
 try:
     output = subprocess.check_output(
@@ -22,6 +25,10 @@ except subprocess.CalledProcessError:
 count = len(output.strip().splitlines())
 
 if count > 2:
+    temp_root = tk.Tk()
+    temp_root.withdraw()
+    messagebox.showinfo("Info", "Another Instance of App Launcher is Already Running, Press Alt+X to launch")
+    temp_root.destroy()
     sys.exit(0)
 
 def get_installed_apps():
@@ -58,19 +65,22 @@ class SearchLauncher:
             self.force_focus(self.search_window)
             return
 
-        self.search_window = tk.Toplevel(self.root)
+        self.search_window = CTk.CTkToplevel(self.root)
         self.search_window.title("Quick Search")
         self.search_window.geometry("450x320")
-        self.search_window.configure(bg="#2d2d2d")
+        self.search_window.configure(fg_color="#000000")
         self.search_window.attributes("-topmost", True)
-        
-        self.entry = tk.Entry(self.search_window, font=("Segoe UI", 14), bg="#3d3d3d", fg="white", insertbackground="white")
+
+        self.entry = CTk.CTkEntry(self.search_window, font=("Segoe UI", 14), bg_color="#000000", fg_color="#000000", corner_radius=15)
+        self.entry._entry.configure(insertbackground="blue")
+
+
         self.entry.pack(pady=10, padx=10, fill='x')
-        
-        self.listbox = tk.Listbox(self.search_window, font=("Segoe UI", 12), bg="#2d2d2d", fg="white", 
-                                  selectbackground="#0078d7", borderwidth=0, highlightthickness=0)
+
+        self.listbox = tk.Listbox(self.search_window, font=("Segoe UI", 12), bg="#000000", fg="white",
+                                  selectbackground="#4169E1", borderwidth=0, highlightthickness=0)
         self.listbox.pack(pady=5, padx=10, fill='both', expand=True)
-        
+
         self.entry.bind("<KeyRelease>", self.update_list)
         self.search_window.bind("<Return>", self.launch_selected)
         self.search_window.bind("<Escape>", lambda e: self.search_window.withdraw())
