@@ -1,6 +1,8 @@
 # App-Launcher(Python)
 Windows App Launcher with utilities like Calculators accessed by Run Utilities + 1 Easter Egg. Run the App Launcher from start menu and whenever u press Alt+X, It would pop-up.
 
+The Utilities included can be accessed by entering 'Run Utilities' in the App Launcher
+
 I made it because existing launchers use way too much resources and my laptop doesnt have that many to give so this runs efficiently and is instant and solves my purpose...
 
 ### Hotkey to Launch is Alt+X
