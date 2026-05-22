@@ -17,6 +17,8 @@ When u start the app, it would start as a background process, nothing would be v
 </details>
 ## [Download Pre Built Binary](https://github.com/SpaceCoderPro/App-Launcher/releases)
 
+### If u find any issues, plss report them in the issues tab so I can follow up...
+
 ## Compilation Instructions for .exe
 Download all files in the Pyinstaller folder then run the below commands
 ```
