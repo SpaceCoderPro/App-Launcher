@@ -1,7 +1,5 @@
 # App-Launcher(Python)
-Windows App Launcher. Run the App Launcher from start menu and whenever u press Alt+X, It would pop-up.
-
-The Utilities included can be accessed by entering 'Run Utilities' in the App Launcher
+Windows App Launcher. Run the App Launcher from start menu and whenever u press Alt+X, It would pop-up. Very less CPU and Memory Usage
 
 I made it because existing launchers use way too much resources and my laptop doesnt have that many to give so this runs efficiently and is instant and solves my purpose...
 
