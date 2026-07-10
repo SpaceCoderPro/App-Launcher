@@ -18,7 +18,7 @@ When u start the app, it would start as a background process, nothing would be v
 ## Compilation Instructions for .exe
 Download all files in the Pyinstaller folder then run the below commands
 ```
-pyinstaller --noconsole --collect-all customtkinter "App Launcher.pyw"
+pyinstaller --noconsole --onefile --collect-all customtkinter --hidden-import=tkinter --hidden-import=tkinter.filedialog --hidden-import=tkinter.messagebox "App Launcher.pyw"
 ```
 ## To run with python installed on your computer
 Download all files in the root folder then run "App Launcher.pyw"
