@@ -757,7 +757,6 @@ class SearchLauncher:
         if self._window_built:
             return
         self._window_built = True
-
         self.search_window = CTk.CTkToplevel(self.root)
         self.search_window.overrideredirect(True)
         self.search_window.attributes("-topmost", True)

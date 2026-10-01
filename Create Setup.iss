@@ -3,9 +3,9 @@
 ; Non-commercial use only
 
 #define MyAppName "App Launcher"
-#define MyAppVersion "3.9.1" 
+#define MyAppVersion "3.9.2" 
 #define MyAppPublisher "SpaceCoderPro"
-#define MyAppURL "https://github.com"
+#define MyAppURL "https://github.com/SpaceCoderPro/App-Launcher"
 #define MyAppExeName "App Launcher.exe"
 
 [Setup]
@@ -20,12 +20,12 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={userappdata}\{#MyAppName}
+DefaultDirName={commonappdata}\{#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
-PrivilegesRequired=lowest
+PrivilegesRequired=admin
 OutputBaseFilename=App Launcher Setup
 SolidCompression=yes
 WizardStyle=modern windows11
