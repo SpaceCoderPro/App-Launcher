@@ -14,3 +14,4 @@
 
 # Allow the gitignore file itself to be tracked
 !.gitignore
+/dist/App Launcher/icons_cache/
