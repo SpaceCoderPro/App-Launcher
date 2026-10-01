@@ -3,7 +3,8 @@
 
 # Do not ignore the specific file
 !App Launcher.pyw
-!Compiler 1.2.iss
+!Create Setup.iss
+!main.ico
 
 # Do not ignore your specific folders and their contents
 !Output/
@@ -12,8 +13,6 @@
 !img.png
 !Portable/
 !Portable/**
-!Create Setup.iss
-!main.ico
 
 # Allow the gitignore file itself to be tracked
 !.gitignore
