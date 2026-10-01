@@ -6,12 +6,11 @@
 !Compiler 1.2.iss
 
 # Do not ignore your specific folders and their contents
-!dist/App Launcher.exe
-!dist/_internal/
-!dist/_internal/**
+!dist/App Launcher/App Launcher.exe
+!dist/App Launcher/_internal/
+!dist/App Launcher/_internal/**
 !Output/
 !Output/**
 
 # Allow the gitignore file itself to be tracked
 !.gitignore
-/dist/App Launcher/icons_cache/
