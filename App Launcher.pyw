@@ -21,6 +21,15 @@ from rapidfuzz import process, fuzz
 import queue
 import win32event
 
+GRID_COLUMNS = 7
+MAX_RESULTS = 21
+HIGHLIGHT_TILE_COLOR = "#3b82f6"
+ICON_CACHE_SIZE = 256
+ICON_DISPLAY_SIZE = 36
+WINDOW_WIDTH = 600
+WINDOW_HEIGHT = 300
+TILE_POOL_SIZE = GRID_COLUMNS * 3
+
 def _system_is_dark():
     try:
         key = win32api.RegOpenKeyEx(
@@ -59,11 +68,6 @@ try:
 except Exception:
     pass
 
-GRID_COLUMNS = 6
-MAX_RESULTS = 25
-HIGHLIGHT_TILE_COLOR = "#3b82f6"
-ICON_CACHE_SIZE = 256
-ICON_DISPLAY_SIZE = 36
 if getattr(sys, "frozen", False):
     APP_DIR = os.path.dirname(sys.executable)
     BUNDLE_DIR = sys._MEIPASS
@@ -619,11 +623,11 @@ class SearchLauncher:
             )
             self.frame.grid_propagate(False)
             self.icon_label = CTkLabel(
-                self.frame, text="", font=("Segoe UI", 26), text_color=launcher._theme["text"]
+                self.frame, text="", font=("Calibri", 26), text_color=launcher._theme["text"]
             )
             self.icon_label.pack(pady=(4, 0))
             self.text_label = CTkLabel(
-                self.frame, text="", font=("Segoe UI", 10),
+                self.frame, text="", font=("Calibri", 12),
                 text_color=launcher._theme["text"], wraplength=72
             )
             self.text_label.pack(pady=(0, 5))
@@ -664,7 +668,7 @@ class SearchLauncher:
                 self.launcher.launch_by_name(self.name)
 
     def _build_pool(self):
-        for i in range(18):
+        for i in range(TILE_POOL_SIZE):
             tile = self.Tile(self.scroll_frame, self)
             self.pool.append(tile)
 
@@ -764,27 +768,27 @@ class SearchLauncher:
         except Exception:
             pass
 
-        width = 500
-        height = 280
-        self.search_window.geometry(f"{width}x{height}")
-
+        self.search_window.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
         self.entry = CTk.CTkEntry(self.search_window,
-                                  font=("Segoe UI", 14),
+                                  font=("Calibri", 20),
                                   fg_color=self._theme["entry"],
                                   text_color=self._theme["text"],
                                   border_color=self._theme["border"],
-                                  border_width=1)
+                                  border_width=0)
         self.entry._entry.configure(insertbackground=self._theme["text"])
-        self.entry.pack(pady=10, padx=10, fill="x")
+        self.entry.pack(pady=10, padx=5, fill="x")
 
         self.scroll_frame = CTkScrollableFrame(
             self.search_window,
             fg_color=self._theme["scroll"],
-            scrollbar_button_color=self._theme["border"],
-            scrollbar_fg_color=self._theme["entry"]
+            scrollbar_button_color=self._theme["scroll"],
+            scrollbar_button_hover_color=self._theme["scroll"],
+            scrollbar_fg_color=self._theme["scroll"]
         )
-        canvas = self.scroll_frame._parent_canvas
-        canvas.configure(yscrollincrement=20)
+        try:
+            self.scroll_frame._scrollbar.grid_remove()
+        except Exception:
+            pass
         self.scroll_frame.pack(pady=5, padx=10, fill="both", expand=True)
         for i in range(GRID_COLUMNS):
             self.scroll_frame.grid_columnconfigure(i, weight=1, uniform="cols")
@@ -814,8 +818,9 @@ class SearchLauncher:
                              border_color=self._theme["border"])
         self.entry._entry.configure(insertbackground=self._theme["text"])
         self.scroll_frame.configure(fg_color=self._theme["scroll"],
-                                    scrollbar_button_color=self._theme["border"],
-                                    scrollbar_fg_color=self._theme["entry"])
+                                    scrollbar_button_color=self._theme["scroll"],
+                                    scrollbar_button_hover_color=self._theme["scroll"],
+                                    scrollbar_fg_color=self._theme["scroll"])
         for i, tile in enumerate(self.pool):
             active = i == self.selected_index and i < len(self._visible_names)
             tile.frame.configure(fg_color=HIGHLIGHT_TILE_COLOR if active else self._theme["tile"])
@@ -828,8 +833,6 @@ class SearchLauncher:
             return
 
         self._apply_theme()
-        width = 500
-        height = 280
         pos = win32api.GetCursorPos()
         mon = win32api.MonitorFromPoint(pos, win32con.MONITOR_DEFAULTTONEAREST)
         info = win32api.GetMonitorInfo(mon)
@@ -841,11 +844,11 @@ class SearchLauncher:
             self._scale = win32print.GetDeviceCaps(hdc, 88) / 96.0
             win32gui.ReleaseDC(0, hdc)
         scale = self._scale
-        x = int(work[0] + (sw / 2) - (width * scale / 2))
-        y = int(work[1] + (sh / 2) - (height * scale / 2))
-        win32gui.MoveWindow(self.hwnd, x, y, int(width * scale), int(height * scale), True)
+        x = int(work[0] + (sw / 2) - (WINDOW_WIDTH * scale / 2))
+        y = int(work[1] + (sh / 2) - (WINDOW_HEIGHT * scale / 2))
+        win32gui.MoveWindow(self.hwnd, x, y, int(WINDOW_WIDTH * scale), int(WINDOW_HEIGHT * scale), True)
         if not hasattr(self, "_corners_set"):
-            set_rounded_corners(self.hwnd, int(width * scale), int(height * scale), 30)
+            set_rounded_corners(self.hwnd, int(WINDOW_WIDTH * scale), int(WINDOW_HEIGHT * scale), 30)
             self._corners_set = True
 
         self.search_window.deiconify()
@@ -878,13 +881,13 @@ class SearchLauncher:
         text = self.entry.get().strip().lower()
 
         if not text:
-            names = self.get_freq_sorted()[:18]
+            names = self.get_freq_sorted()[:TILE_POOL_SIZE]
         else:
             results = process.extract(
                 text,
                 self.search_lower,
                 scorer=fuzz.WRatio,
-                limit=18
+                limit=TILE_POOL_SIZE
             )
             names = [
                 self.search_names[idx]
@@ -896,7 +899,7 @@ class SearchLauncher:
         for i, tile in enumerate(self.pool):
             if i < len(names):
                 tile.set_app(names[i])
-                tile.frame.grid(row=i // 6, column=i % 6, padx=2, pady=2, sticky="nsew")
+                tile.frame.grid(row=i // GRID_COLUMNS, column=i % GRID_COLUMNS, padx=2, pady=2, sticky="nsew")
             else:
                 tile.clear()
                 tile.frame.grid_forget()
@@ -940,16 +943,16 @@ class SearchLauncher:
             return "break"
 
         current = self.selected_index
-        row, col = divmod(current, 6)
+        row, col = divmod(current, GRID_COLUMNS)
 
         if direction == "left":
             new_index = current - 1 if col > 0 else current
         elif direction == "right":
-            new_index = current + 1 if col < 5 and current < total - 1 else current
+            new_index = current + 1 if col < GRID_COLUMNS - 1 and current < total - 1 else current
         elif direction == "up":
-            new_index = current - 6 if row > 0 else current
+            new_index = current - GRID_COLUMNS if row > 0 else current
         elif direction == "down":
-            new_index = current + 6 if current + 6 < total else total - 1
+            new_index = current + GRID_COLUMNS if current + GRID_COLUMNS < total else total - 1
         else:
             return "break"
 
