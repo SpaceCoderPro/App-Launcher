@@ -19,7 +19,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={autopf}\{#MyAppName}
+DefaultDirName={userappdata}\{#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 ; "ArchitecturesAllowed=x64compatible" specifies that Setup cannot run
 ; on anything but x64 and Windows 11 on Arm.
@@ -31,8 +31,8 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
-;PrivilegesRequired=lowest
-PrivilegesRequiredOverridesAllowed=dialog
+PrivilegesRequired=lowest
+;PrivilegesRequiredOverridesAllowed=dialog
 OutputBaseFilename=App Launcher Setup
 SolidCompression=yes
 WizardStyle=modern windows11
