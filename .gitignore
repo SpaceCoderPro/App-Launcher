@@ -8,7 +8,7 @@
 
 # Do not ignore your specific folders and their contents
 !Output/
-!Output/App Launcher.exe
+!Output/App Launcher Setup.exe
 !README.md
 !img.png
 !Portable/
