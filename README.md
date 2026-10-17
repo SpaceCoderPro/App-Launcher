@@ -10,19 +10,19 @@ When u start the app, it would start as a background process, nothing would be v
 
 <img src="img.png">
 
-## [Download Pre Built Binary](https://github.com/SpaceCoderPro/App-Launcher/releases)
+## [Download Setup](https://github.com/SpaceCoderPro/App-Launcher/releases)
 
 ### If u find any issues, plss report them in the issues tab so I can follow up...
 
 ## Compilation Instructions for .exe
 Download all files in the Pyinstaller folder then run the below commands
 ```
-pyinstaller --noconsole --onefile --collect-all customtkinter --hidden-import=tkinter --hidden-import=tkinter.filedialog --hidden-import=tkinter.messagebox "App Launcher.pyw"
+pyinstaller --noconsole "App Launcher.pyw"
 ```
 ## To run with python installed on your computer
 Download all files in the root folder then run "App Launcher.pyw"
 
 ## Libraries to Install
 ```
-pip install tkinter pynput pywin32
+pip install tkinter pynput pywin32 rapidfuzz
 ```
