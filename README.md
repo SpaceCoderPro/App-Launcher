@@ -2,6 +2,7 @@
 Windows App Launcher. Run the App Launcher from start menu and whenever u press Alt+X, It would pop-up. Very less CPU and Memory Usage
 
 I made it because existing launchers use way too much resources and my laptop doesn't have that many to give so this runs efficiently and is LITTERALY INSTANT (faster than Start, you may check) and solves my purpose...
+Its made fully in Python and uses CustomTkinter for GUI. It is a very simple app but it does the job well.
 
 ### Hotkey to Launch is Alt+X
 When u start the app, it would start as a background process, nothing would be visble. The app would become visible when u press Alt+X

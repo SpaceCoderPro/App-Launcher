@@ -43,6 +43,7 @@ def _system_is_dark():
         return True
 
 _INSTANCE_MUTEX = win32event.CreateMutex(None, False, "Local\\AppLauncherSingleton")
+
 if win32api.GetLastError() == 183:  # ERROR_ALREADY_EXISTS — already running
     win32gui.MessageBox(
         0,
@@ -238,7 +239,6 @@ class SearchLauncher:
             hr = ctypes.windll.shell32.SHGetImageList(4, iid_buf, ctypes.byref(himl))
             if hr != 0 or not himl:
                 return None
-
             geticon = ctypes.windll.comctl32.ImageList_GetIcon
             geticon.restype = ctypes.c_void_p
             hicon = geticon(himl, index, 1)
@@ -278,7 +278,6 @@ class SearchLauncher:
                         for h in small:
                             win32gui.DestroyIcon(h)
                     break
-
             if not hicon:
                 import win32com.shell.shell as shell
                 import win32com.shell.shellcon as shellcon
@@ -347,7 +346,6 @@ class SearchLauncher:
                 img = img.resize((ICON_CACHE_SIZE, ICON_CACHE_SIZE), Image.Resampling.LANCZOS)
             img.save(output_path, 'PNG', compress_level=1)
             return True
-
         except Exception:
             return False
         finally:
@@ -433,7 +431,6 @@ class SearchLauncher:
                 ctypes.c_void_p(ctypes.cast(vtbl, ctypes.POINTER(ctypes.c_void_p))[2]),
                 ctypes.WINFUNCTYPE(ctypes.c_ulong, ctypes.c_void_p)
             )
-
             img_factory = ctypes.c_void_p()
             hr = query_interface(shell_item, ctypes.byref(IID_IShellItemImageFactory), ctypes.byref(img_factory))
             release(shell_item)
@@ -443,19 +440,15 @@ class SearchLauncher:
             class SIZE(ctypes.Structure):
                 _pack_ = 4
                 _fields_ = [("cx", ctypes.c_long), ("cy", ctypes.c_long)]
-
             get_image = ctypes.cast(
                 ctypes.c_void_p(ctypes.cast(vtbl2, ctypes.POINTER(ctypes.c_void_p))[3]),
                 ctypes.WINFUNCTYPE(ctypes.c_long, ctypes.c_void_p, SIZE, ctypes.c_uint, ctypes.POINTER(ctypes.c_void_p))
             )
-
             size = ICON_CACHE_SIZE
             s = SIZE(size, size)
-
             SIIGBF_ICONONLY = 0x00000004
             SIIGBF_BIGGERSIZEOK = 0x00000001
             flags = SIIGBF_ICONONLY | SIIGBF_BIGGERSIZEOK
-
             hbitmap = ctypes.c_void_p()
             hr = get_image(img_factory, s, flags, ctypes.byref(hbitmap))
             release(img_factory)
@@ -463,7 +456,6 @@ class SearchLauncher:
                 return False
             ico_x = size
             ico_y = size
-
             bmi = ctypes.create_string_buffer(40 + 4)
             ctypes.memset(bmi, 0, 40)
             ctypes.c_uint32.from_buffer(bmi, 0).value = 40
@@ -472,7 +464,6 @@ class SearchLauncher:
             ctypes.c_uint16.from_buffer(bmi, 12).value = 1
             ctypes.c_uint16.from_buffer(bmi, 14).value = 32
             ctypes.c_uint32.from_buffer(bmi, 16).value = 0
-
             hdc = user32.GetDC(0)
             pixel_buf = ctypes.create_string_buffer(ico_x * ico_y * 4)
             gdi32.GetDIBits.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint, ctypes.c_uint, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint]
@@ -493,7 +484,6 @@ class SearchLauncher:
             )
             img.save(output_path, 'PNG', compress_level=1)
             return True
-
         except Exception:
             return False
         finally:
@@ -793,7 +783,6 @@ class SearchLauncher:
             self.scroll_frame.grid_columnconfigure(i, weight=1, uniform="cols")
 
         self.selected_index = 0
-
         self.entry.bind("<KeyRelease>", self._on_key)
         self.search_window.bind("<Return>", self.launch_selected)
         self.search_window.bind("<Escape>", lambda e: self.search_window.withdraw())
@@ -842,6 +831,7 @@ class SearchLauncher:
             hdc = win32gui.GetDC(0)
             self._scale = win32print.GetDeviceCaps(hdc, 88) / 96.0
             win32gui.ReleaseDC(0, hdc)
+
         scale = self._scale
         x = int(work[0] + (sw / 2) - (WINDOW_WIDTH * scale / 2))
         y = int(work[1] + (sh / 2) - (WINDOW_HEIGHT * scale / 2))
